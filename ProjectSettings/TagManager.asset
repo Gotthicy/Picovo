@@ -5,14 +5,18 @@ TagManager:
   serializedVersion: 2
   tags:
   - PlayArea
+  - Ground
+  - Enemy
+  - Coin
+  - Goal
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - ARPlane
   - Water
   - UI
-  - 
+  - Gameplay
   - 
   - 
   - 

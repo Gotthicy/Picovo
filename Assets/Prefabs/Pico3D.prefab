@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 84bbc82ea7ec00848a91905fe6c763e7, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 84bbc82ea7ec00848a91905fe6c763e7, type: 3}
       propertyPath: m_Name
@@ -78,9 +78,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 84bbc82ea7ec00848a91905fe6c763e7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5578236301389903973}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 84bbc82ea7ec00848a91905fe6c763e7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2179348613735783732}
   m_SourcePrefab: {fileID: 100100000, guid: 84bbc82ea7ec00848a91905fe6c763e7, type: 3}
 --- !u!1 &3266122194205323976 stripped
 GameObject:
@@ -135,16 +132,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2179348613735783732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3266122194205323976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3557eaf42cbfbd64998dea3cf8568c38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnDistance: 1.5
