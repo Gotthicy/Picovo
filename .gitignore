@@ -1,0 +1,37 @@
+# Unity generated
+[Ll]ibrary/
+[Tt]emp/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]serSettings/
+[Mm]emoryCaptures/
+[Ww]ebGLTemplates/
+
+# Visual Studio / Rider
+.vs/
+.vscode/
+*.csproj
+*.sln
+*.user
+*.userprefs
+*.pidb
+.idea/
+*.DotSettings
+
+# Unity Cache
+*.mdb
+*.pdb
+
+# System
+.DS_Store
+Thumbs.db
+
+# Unity Package Manager
+Packages/com.unity.package-manager-ui/
+
+# iOS / macOS
+*.a
+*.app
+*.ipa
+
