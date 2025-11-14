@@ -204,13 +204,26 @@ public class ARPlacementManager : MonoBehaviour
             return;
         }
 
-        GameObject obj = Instantiate(pico2DPrefab, pos, Quaternion.identity);
+        // 将位置投影到平面表面
+        Vector3 planeNormal = plane.transform.up;
+        Vector3 planeCenter = plane.center;
+        // 计算点到平面的距离，然后投影到平面上方0.1f的位置
+        Vector3 toPlane = pos - planeCenter;
+        float distanceFromPlane = Vector3.Dot(toPlane, planeNormal);
+        Vector3 projectedPos = planeCenter + planeNormal * 0.1f + (toPlane - planeNormal * distanceFromPlane);
 
-        // 调整朝向
+        GameObject obj = Instantiate(pico2DPrefab, projectedPos, Quaternion.identity);
+
+        // 调整朝向：让 Pico2D 面向平面的 forward 方向
         if (Vector3.Dot(plane.transform.up, Vector3.up) > 0.7f)
+        {
             obj.transform.rotation = Quaternion.identity;
+        }
         else
-            obj.transform.rotation = plane.transform.rotation;
+        {
+            // 计算朝向：forward 沿着平面的 forward，up 沿着平面的 up
+            obj.transform.rotation = Quaternion.LookRotation(plane.transform.forward, plane.transform.up);
+        }
 
         // 设置为平面的子对象
         obj.transform.SetParent(plane.transform);
