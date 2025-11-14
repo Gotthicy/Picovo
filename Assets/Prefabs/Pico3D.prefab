@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &4322093323536624834
+--- !u!1001 &2419260955216940953
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -66,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 84bbc82ea7ec00848a91905fe6c763e7, type: 3}
       propertyPath: m_Name
-      value: Pico3D.prefab
+      value: Pico3D
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -74,20 +74,26 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 84bbc82ea7ec00848a91905fe6c763e7, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3518050926241280562}
+      addedObject: {fileID: 8886797268162457178}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 84bbc82ea7ec00848a91905fe6c763e7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5578236301389903973}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 84bbc82ea7ec00848a91905fe6c763e7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2179348613735783732}
   m_SourcePrefab: {fileID: 100100000, guid: 84bbc82ea7ec00848a91905fe6c763e7, type: 3}
---- !u!1 &3979564876215472531 stripped
+--- !u!1 &3266122194205323976 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 84bbc82ea7ec00848a91905fe6c763e7, type: 3}
-  m_PrefabInstance: {fileID: 4322093323536624834}
+  m_PrefabInstance: {fileID: 2419260955216940953}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &3518050926241280562
+--- !u!65 &8886797268162457178
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3979564876215472531}
+  m_GameObject: {fileID: 3266122194205323976}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -102,3 +108,43 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.31, y: 0.4, z: 0.54}
   m_Center: {x: -0.01, y: 0.2, z: 0.02}
+--- !u!54 &5578236301389903973
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3266122194205323976}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &2179348613735783732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3266122194205323976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3557eaf42cbfbd64998dea3cf8568c38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnDistance: 1.5
