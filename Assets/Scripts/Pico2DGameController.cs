@@ -57,7 +57,7 @@ public class Pico2DGameController : MonoBehaviour
         if (col == null)
         {
             BoxCollider box = gameObject.AddComponent<BoxCollider>();
-            box.size = new Vector3(0.5f, 0.5f, 0.1f);
+          //  box.size = new Vector3(0.5f, 0.5f, 0.1f);
         }
 
         // 立即锁定到平面表面
@@ -136,31 +136,41 @@ public class Pico2DGameController : MonoBehaviour
     /// <summary>
     /// 处理输入
     /// </summary>
-    void HandleInput()
+   void HandleInput()
+{
+    if (planeOverlay == null || planeOverlay.arPlane == null) return;
+
+    // 从虚拟摇杆获取输入
+    float horizontal = VirtualJoystick.Instance != null ? VirtualJoystick.Instance.Horizontal : 0f;
+    float vertical = VirtualJoystick.Instance != null ? VirtualJoystick.Instance.Vertical : 0f;
+
+    // 跳跃
+    if (VirtualJoystick.Instance != null && VirtualJoystick.Instance.JumpPressed && isGrounded)
     {
-        if (planeOverlay == null || planeOverlay.arPlane == null) return;
-
-        // 从虚拟摇杆获取输入
-        float horizontal = VirtualJoystick.Instance != null ? VirtualJoystick.Instance.Horizontal : 0f;
-
-        // 跳跃
-        if (VirtualJoystick.Instance != null && VirtualJoystick.Instance.JumpPressed && isGrounded)
-        {
-            velocity += planeOverlay.arPlane.transform.up * jumpForce;
-        }
-
-        // 水平移动（沿着平面的 right 方向）
-        Vector3 right = planeOverlay.arPlane.transform.right;
-        Vector3 moveDir = right * horizontal;
-        
-        // 更新速度：保持垂直分量，更新水平分量
-        Vector3 planeNormal = planeOverlay.arPlane.transform.up;
-        Vector3 currentHorizontal = velocity - Vector3.Project(velocity, planeNormal);
-        Vector3 newHorizontal = moveDir * moveSpeed;
-        Vector3 vertical = Vector3.Project(velocity, planeNormal);
-        
-        velocity = newHorizontal + vertical;
+        velocity += planeOverlay.arPlane.transform.up * jumpForce;
     }
+
+    // 水平移动（基于摄像机方向）
+    Vector3 cameraForward = Camera.main.transform.forward;
+    Vector3 cameraRight = Camera.main.transform.right;
+
+    // 保持水平移动（忽略摄像机的上下倾斜）
+    cameraForward.y = 0;
+    cameraRight.y = 0;
+    cameraForward.Normalize();
+    cameraRight.Normalize();
+
+    // 结合前后和左右移动
+    Vector3 moveDir = (cameraForward * vertical + cameraRight * horizontal).normalized;
+
+    // 更新速度：保持垂直分量，更新水平分量
+    Vector3 planeNormal = planeOverlay.arPlane.transform.up;
+    Vector3 currentHorizontal = velocity - Vector3.Project(velocity, planeNormal);
+    Vector3 newHorizontal = moveDir * moveSpeed;
+    Vector3 verticalVelocity = Vector3.Project(velocity, planeNormal);
+
+    velocity = newHorizontal + verticalVelocity;
+}
 
     /// <summary>
     /// 应用移动和重力
