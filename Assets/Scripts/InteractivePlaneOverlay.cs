@@ -12,7 +12,7 @@ public class InteractivePlaneOverlay : MonoBehaviour
     private ARPlacementManager manager;
 
     [Header("Gameplay Components")]
-    public Camera gameplay2DCamera; // 2D游戏正交相机
+  //  public Camera gameplay2DCamera; // 2D游戏正交相机
   //  public GameObject currentLevel; // 当前关卡实例
     public GameObject currentPico; // 当前的2D Pico
 
@@ -58,30 +58,23 @@ public class InteractivePlaneOverlay : MonoBehaviour
     void Setup2DCamera()
     {
         // 创建相机GameObject
-        GameObject camObj = new GameObject("Gameplay2DCamera_" + arPlane.trackableId);
-        camObj.transform.SetParent(transform);
+     //   GameObject camObj = new GameObject("Gameplay2DCamera_" + arPlane.trackableId);
+      //  camObj.transform.SetParent(transform);
 
-        gameplay2DCamera = camObj.AddComponent<Camera>();
+     //   gameplay2DCamera = camObj.AddComponent<Camera>();
 
         // 配置为正交相机
-        gameplay2DCamera.orthographic = true;
-        gameplay2DCamera.orthographicSize = cameraSize;
-        gameplay2DCamera.nearClipPlane = 0.1f;
-        gameplay2DCamera.farClipPlane = 10f;
+   //     gameplay2DCamera.orthographic = true;
+   //     gameplay2DCamera.orthographicSize = cameraSize;
+   //     gameplay2DCamera.nearClipPlane = 0.1f;
+   //     gameplay2DCamera.farClipPlane = 10f;
 
-        // 设置渲染顺序（在AR相机之上）
-        gameplay2DCamera.depth = 10;
-        gameplay2DCamera.clearFlags = CameraClearFlags.Depth; // 只清除深度，保留AR背景
-
-        // 只渲染游戏层
-        if (gameplayLayer.value != 0)
-            gameplay2DCamera.cullingMask = gameplayLayer;
 
         // 定位相机：在平面上方，朝下看
-        camObj.transform.position = arPlane.center + arPlane.transform.up * cameraHeight;
-        camObj.transform.rotation = Quaternion.LookRotation(-arPlane.transform.up, arPlane.transform.forward);
+   //     camObj.transform.position = arPlane.center + arPlane.transform.up * cameraHeight;
+   //     camObj.transform.rotation = Quaternion.LookRotation(-arPlane.transform.up, arPlane.transform.forward);
 
-        gameplay2DCamera.enabled = true;
+   //     gameplay2DCamera.enabled = true;
     }
 
     /// <summary>
@@ -139,12 +132,12 @@ public class InteractivePlaneOverlay : MonoBehaviour
       
 
         // 禁用相机
-        if (gameplay2DCamera != null)
-            Destroy(gameplay2DCamera.gameObject);
+       // if (gameplay2DCamera != null)
+      //      Destroy(gameplay2DCamera.gameObject);
 
         currentPico = null;
       
-        gameplay2DCamera = null;
+     //   gameplay2DCamera = null;
 
         Debug.Log("Gameplay ended");
     }
