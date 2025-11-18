@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
@@ -14,15 +16,31 @@ public class ARPlacementManager : MonoBehaviour
     [Header("Prefabs")]
     public GameObject pico2DPrefab;
     public GameObject interactivePlaneOverlayPrefab; // 平面交互层预制体
-    public GameObject levelPrefab; // 2D关卡预制体
+  //  public GameObject levelPrefab; // 2D关卡预制体
+    public GameObject otherPrefab; // 小鱼预制体
+
+    public List<GameObject> otherObjects = new List<GameObject>();
 
     [Header("Game State")]
     public bool isInGameMode = false;
     public ARPlane currentGamePlane;
     public GameObject current2DPico;
 
+    public Action OnColletClick;
+    public Action OnExit;
+
     // 存储每个平面的交互层
     private Dictionary<TrackableId, InteractivePlaneOverlay> planeOverlays = new Dictionary<TrackableId, InteractivePlaneOverlay>();
+
+    public void OnCollectBtnClick() 
+    {
+        OnColletClick.Invoke ();
+    }
+
+    public void OnExitBtnClick() 
+    {
+        OnExit.Invoke ();
+    }
 
     void Awake()
     {
@@ -231,9 +249,131 @@ public class ARPlacementManager : MonoBehaviour
         current2DPico = obj;
         currentGamePlane = plane;
 
+        StartCoroutine(FadeOn(1f, obj));
+
+        SpawnRandomObjectsAround(projectedPos, plane, 5);
+
         // 进入游戏模式
         EnterGameMode(plane, obj);
     }
+
+    private IEnumerator FadeOn(float fadeTime , GameObject Onobj)
+    {
+        // 获取所有渲染器
+        Renderer renderers = Onobj.GetComponent<Renderer>();
+        float timer = 0f;
+
+        // 更新所有材质的透明度
+      
+        Color color = renderers.material.color;
+        color.a = 0;
+        renderers.material.color = color;     
+
+        while (timer < fadeTime)
+        {
+            timer += Time.deltaTime;
+            float alpha = (timer / fadeTime);
+
+            // 更新所有材质的透明度
+           
+             Color ncolor = renderers.material.color;
+             color.a = alpha;
+            renderers.material.color = color;
+        
+
+            yield return null;
+        }
+
+
+
+        color.a = 1;
+        renderers.material.color = color;
+
+       
+
+    }
+
+
+
+    public void SpawnRandomObjectsAround(Vector3 centerPos, ARPlane plane, int count = 5)
+    {
+        if (isInGameMode)
+        {
+            Debug.LogWarning("Already in game mode!");
+            return;
+        }     
+
+
+        for (int i = 0; i < count; i++)
+        {
+            // 在中心点周围随机生成位置
+            Vector3 randomOffset = GetRandomPositionOnPlane(centerPos, plane, 0.5f, 2.0f);
+            Vector3 spawnPos = ProjectToPlaneWithOffset(randomOffset, plane.center, plane.transform.up,0f);
+
+            // 检查位置是否在平面多边形内
+            if (IsInsidePlanePolygon(spawnPos, plane))
+            {
+                // 实例化物体
+                GameObject obj = Instantiate(otherPrefab, spawnPos, Quaternion.identity);
+
+                // 设置朝向
+                if (Vector3.Dot(plane.transform.up, Vector3.up) > 0.7f)
+                {
+                    obj.transform.rotation = Quaternion.identity;
+                }
+                else
+                {
+                    obj.transform.rotation = Quaternion.LookRotation(plane.transform.forward, plane.transform.up);
+                }
+
+                // 设置为平面的子对象
+                obj.transform.SetParent(plane.transform);                         
+
+                otherObjects.Add(obj);
+
+                // 如果需要保存引用，可以添加到列表
+                // randomObjects.Add(obj);
+            }
+            else 
+            {
+                i--;
+            }
+        }      
+    }
+
+    /// <summary>
+    /// 在平面上获取随机位置
+    /// </summary>
+    private Vector3 GetRandomPositionOnPlane(Vector3 center, ARPlane plane, float minRadius, float maxRadius)
+    {
+        // 生成随机角度和距离
+        float randomAngle = UnityEngine.Random.Range(0f, 360f);
+        float randomDistance = UnityEngine.Random.Range(minRadius, maxRadius);
+
+        // 获取平面的本地坐标系方向
+        Vector3 planeRight = plane.transform.right;
+        Vector3 planeForward = plane.transform.forward;
+
+        // 在平面坐标系内计算偏移
+        Vector3 randomOffset =
+            planeRight * (Mathf.Cos(randomAngle * Mathf.Deg2Rad) * randomDistance) +
+            planeForward * (Mathf.Sin(randomAngle * Mathf.Deg2Rad) * randomDistance);
+
+        return center + randomOffset;
+    }
+
+    /// <summary>
+    /// 将位置投影到平面上方指定偏移处
+    /// </summary>
+    private Vector3 ProjectToPlaneWithOffset(Vector3 pos, Vector3 planeCenter, Vector3 planeNormal, float offset)
+    {
+        Vector3 toPlane = pos - planeCenter;
+        float distanceFromPlane = Vector3.Dot(toPlane, planeNormal);
+        Vector3 projectedPos = planeCenter + planeNormal * offset + (toPlane - planeNormal * distanceFromPlane);
+        return projectedPos;
+    }
+
+
 
     /// <summary>
     /// 进入2D游戏模式
@@ -257,7 +397,7 @@ public class ARPlacementManager : MonoBehaviour
     /// <summary>
     /// 退出2D游戏模式，恢复3D
     /// </summary>
-    public void ExitGameMode(Vector3 exitPosition)
+    public void ExitGameMode()
     {
         if (!isInGameMode || current2DPico == null) return;
 
@@ -278,6 +418,17 @@ public class ARPlacementManager : MonoBehaviour
         UIManager.Instance?.SwitchToDragUI();
 
         Debug.Log("Exited game mode");
+
+        
+if(otherObjects.Count > 0)
+{
+    foreach (var obj in otherObjects)
+    {
+        Destroy(obj);
+    }
+    otherObjects.Clear();
+}
+
     }
 
     /// <summary>

@@ -78,8 +78,8 @@ public class UIManager : MonoBehaviour
         if (ARPlacementManager.Instance != null && ARPlacementManager.Instance.isInGameMode)
         {
             // 获取2D Pico的当前位置作为退出位置
-            Vector3 exitPos = ARPlacementManager.Instance.current2DPico.transform.position;
-            ARPlacementManager.Instance.ExitGameMode(exitPos);
+         //   Vector3 exitPos = ARPlacementManager.Instance.current2DPico.transform.position;
+            ARPlacementManager.Instance.ExitGameMode();
         }
     }
 }

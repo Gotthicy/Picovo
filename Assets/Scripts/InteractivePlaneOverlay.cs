@@ -13,7 +13,7 @@ public class InteractivePlaneOverlay : MonoBehaviour
 
     [Header("Gameplay Components")]
     public Camera gameplay2DCamera; // 2D游戏正交相机
-    public GameObject currentLevel; // 当前关卡实例
+  //  public GameObject currentLevel; // 当前关卡实例
     public GameObject currentPico; // 当前的2D Pico
 
     [Header("Settings")]
@@ -89,19 +89,19 @@ public class InteractivePlaneOverlay : MonoBehaviour
     /// </summary>
     void SpawnLevel()
     {
-        if (manager.levelPrefab == null)
+      //  if (manager.levelPrefab == null)
         {
-            Debug.LogWarning("Level prefab not assigned!");
-            return;
+      //      Debug.LogWarning("Level prefab not assigned!");
+      //      return;
         }
 
-        currentLevel = Instantiate(manager.levelPrefab, transform);
-        currentLevel.transform.localPosition = Vector3.zero;
-        currentLevel.transform.localRotation = Quaternion.identity;
-        currentLevel.transform.localScale = Vector3.one;
+   //     currentLevel = Instantiate(manager.levelPrefab, transform);
+  //      currentLevel.transform.localPosition = Vector3.zero;
+   //     currentLevel.transform.localRotation = Quaternion.identity;
+   //     currentLevel.transform.localScale = Vector3.one;
 
-        // 设置关卡的层级
-        SetLayerRecursively(currentLevel, LayerMask.NameToLayer("Gameplay"));
+   //     // 设置关卡的层级
+   //     SetLayerRecursively(currentLevel, LayerMask.NameToLayer("Gameplay"));
     }
 
     /// <summary>
@@ -136,16 +136,14 @@ public class InteractivePlaneOverlay : MonoBehaviour
 
         isGameplayActive = false;
 
-        // 销毁关卡
-        if (currentLevel != null)
-            Destroy(currentLevel);
+      
 
         // 禁用相机
         if (gameplay2DCamera != null)
             Destroy(gameplay2DCamera.gameObject);
 
         currentPico = null;
-        currentLevel = null;
+      
         gameplay2DCamera = null;
 
         Debug.Log("Gameplay ended");

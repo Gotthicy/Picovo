@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
@@ -118,14 +120,47 @@ public class Draggable3D : MonoBehaviour
             if (plane != null && ARPlacementManager.Instance.IsInsidePlanePolygon(currentPos, plane))
             {
                 // 转换成2D Pico
-                ARPlacementManager.Instance.Spawn2DPico(currentPos, plane);
-                Destroy(gameObject);
+             
+                StartCoroutine(FadeOut(1f,currentPos,plane));
                 return;
             }
         }
         
         // 如果没有放置成功，可以添加回弹效果或保持在原位
     }
+
+    private IEnumerator FadeOut(float fadeTime,Vector3 currentPos, ARPlane plane)
+    {
+        // 获取所有渲染器
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+        float timer = 0f;
+
+        while (timer < fadeTime)
+        {
+            timer += Time.deltaTime;
+            float alpha = 1 - (timer / fadeTime);
+
+            // 更新所有材质的透明度
+            foreach (Renderer renderer in renderers)
+            {
+                if (renderer != null && renderer.material != null)
+                {
+                    Color color = renderer.material.color;
+                    color.a = alpha;
+                    renderer.material.color = color;
+                }
+            }
+
+            yield return null;
+        }
+
+        // 销毁物体
+        Destroy(gameObject);
+        ARPlacementManager.Instance.Spawn2DPico(currentPos, plane);
+    }
+
+
+
 
     void OnDestroy()
     {
