@@ -156,6 +156,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   planeLockDistance: 0
+  Enemy: {fileID: 0}
+  EnemyCount: 0
 --- !u!1 &6872509958911131956
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,7 +231,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bffbd1e13db4bee478be73599adb0855, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4601ae556f359404494da0cd88489f89, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
